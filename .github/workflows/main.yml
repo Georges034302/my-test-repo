@@ -20,7 +20,7 @@ jobs:
            id: vowel_freq
            run: |
              # run the frequency.py 
-             FREQ_RESULT=$(python3 ./github/scripts/frequency.py 'data.txt')
+             FREQ_RESULT=$(python3 .github/scripts/frequency.py 'data.txt')
              echo "FREQ_RESULT=$FREQ_RESULT" >> $GITHUB_ENV
 
          # Step 3: Update Index HTML

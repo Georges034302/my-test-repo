@@ -15,7 +15,7 @@ jobs:
          - name: Checkout Repository
            uses: actions/checkout@v3
 
-         # Step 2: Run Vowel Frequency Analyzer
+         # Step 2: Run Vowel Frequency
          - name:
            run: |
            FREQ_RESULT=$(python3 .github/scripts/frequency.py 'data.txt')

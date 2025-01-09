@@ -18,8 +18,8 @@ jobs:
          # Step 2: Run Vowel Frequency
          - name:
            run: |
-           FREQ_RESULT=$(python3 .github/scripts/frequency.py 'data.txt')
-           echo "FREQ_RESULT=$FREQ_RESULT" >> $GITHUB_ENV
+            FREQ_RESULT=$(python3 .github/scripts/frequency.py 'data.txt')
+            echo "FREQ_RESULT=$FREQ_RESULT" >> $GITHUB_ENV
 
          # Step 3: Update Index HTML
          - name: Update HTML

@@ -15,29 +15,27 @@ jobs:
          - name: Checkout Repository
            uses: actions/checkout@v3
 
-         # Step 2: Update Index HTML
+         # Step 2: Run Vowel Analyzer
+         - name: Run Python Vowel Analyzer
+           run: |
+            FREQ_RESULT=$(python3 .github/scripts/frequency.py 'data.txt')
+            echo "FREQ_RESULT=$FREQ_RESULT" >> $GITHUB_ENV
+
+         # Step 3: Update Index HTML
          - name: Update HTML
            run: |
             # Team Leader Update index.HTML
+            FREQ_RESULT="${{ env.FREQ_RESULT }}"
+            GITHUB_USER="${{ github.actor }}"
             if [ "${{ github.actor }}" == "Georges034302" ]; then
-               sed -i '/<\/body>/i <p>Updated by Team Leader on '"$(date)"'</p>' index.html
+               bash .github/scripts/update_index.sh "$FREQ_RESULT" "$GITHUB_USER"
             fi
 
-         # Step 3: Update README
+         # Step 4: Update README
          - name: Update README
            run: |
-            echo "### Updated by ${{ github.actor }} on $(date '+%Y-%m-%d %H:%M:%S') [Commit: $(git rev-parse --short HEAD)]" >> README.md
+            FREQ_RESULT="${{ env.FREQ_RESULT }}"
+            GITHUB_USER="${{ github.actor }}"
+            bash .github/scripts/update_readme.sh "$FREQ_RESULT" "$GITHUB_USER"
 
-
-         # Step 4: Commit changes back to the repository
-         - name: Commit and Push changes
-           run: |
-            git config --global user.name "github-actions"
-            git config --global user.email "github-actions@users.noreply.github.com"
-            git add .
-            git commit -m "Workflow: Updated HTML and README for ${{ github.actor }}"
-            git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-            git push
-           env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
              
